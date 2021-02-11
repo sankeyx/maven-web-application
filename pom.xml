@@ -101,13 +101,13 @@
 	    <repository>
 	      <id>nexus</id>
 	      <name>Mithun Technologies Releases Nexus Repository</name>
-	      <url>http://13.232.214.66:8081/repository/sanket-release/</url>
+	      <url>http://65.1.108.222:8081/repository/flip-release/</url>
 	    </repository>
 	    
 	    <snapshotRepository>
 	      <id>nexus</id>
 	      <name>Mithun Technologies Snapshot Nexus Repository</name>
-	      <url>http://13.232.214.66:8081/repository/sanket-snapshot/</url>
+	      <url>http://65.1.108.222:8081/repository/flip-snapshot/</url>
 	    </snapshotRepository>
 	    
 	</distributionManagement>
