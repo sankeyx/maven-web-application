@@ -1,23 +1,32 @@
-node {
-properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '5', daysToKeepStr: '', numToKeepStr: '5')), pipelineTriggers([pollSCM('* * * * *')])])
-def mavenHome = tool name : "maven3.6.2" 
+node{
+properties([pipelineTriggers([pollSCM('* * * * *')])])
 
-	
-stage ("get code from git")
+def mavenHome = tool name: "maven3.6.3"
+stage("getting code from scm")    
 {
-	git branch: 'development', url: 'https://github.com/sankeyx/maven-web-application.git'
-}
-
-stage ("build using maven")
+    git branch: 'development', url: 'https://github.com/sankeyx/maven-web-application.git'
+}    
+    
+stage("build using maven")
 {
-sh "${mavenHome}/bin/mvn clean package" 	
+sh "${mavenHome}/bin/mvn clean package"    
+    
 }
-
-stage ("deploy to tomcat server")
-{  sshagent(['4d647e66-9336-4965-b9d3-111995bdf2fd']) { sh "scp -o StrictHostKeyChecking=no target/maven-web-application.war ec2-user@13.127.242.168:/opt/apache-tomcat-9.0.39/webapps"
+/*
+stage("sonar scaner")  
+{
+    sh "${mavenHome}/bin/mvn sonar:sonar"
 }
- 	
+stage("upload artifact to nexus")  
+{
+    sh "${mavenHome}/bin/mvn deploy"
 }
-
-
+*/
+stage("deploy to tomcat server")  
+{
+   sshagent(['a7d7dc38-552d-4925-a535-73d45116329d']) {
+    sh "scp -o StrictHostKeyChecking=no target/maven-web-application.war ec2-user@65.1.111.121:/opt/tomcat/webapps/" 
+}
+} 
+    
 }
